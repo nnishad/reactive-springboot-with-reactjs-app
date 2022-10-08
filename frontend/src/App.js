@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {BrowserRouter as Router, createBrowserRouter, RouterProvider} from 'react-router-dom';
+import AppRoutes from "./routes/AppRoutes";
+import HomePage from "./pages/HomePage";
+import Page404 from "./pages/Page404";
+import Search from "./pages/Search";
 
-function App() {
+/**
+ * Turns URL path into router basename by removing everything after the last slash
+ *
+ * @HindleyMilner getBasename :: string -> string
+ *
+ * @pure
+ * @param {string} path URL path, probably window.location.pathname
+ * @returns {string} final basename
+ *
+ * @example
+ * getBaseName('/some/structure/page'); // => '/some/structure'
+ */
+// const getBasename = path => substr(lastIndexOf('/')(path))(0)(path);
+
+/**
+ * Base Template component holding the basic web application
+ * @returns {JSX.Element}
+ */
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <HomePage />,
+        errorElement: <Page404 />,
+    },
+    {
+        path: "search/:searchId",
+        element: <Search />,
+    },
+]);
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <RouterProvider router={router} />
   );
-}
+};
 
 export default App;
